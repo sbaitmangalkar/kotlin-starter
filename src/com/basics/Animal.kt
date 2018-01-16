@@ -1,5 +1,9 @@
 package com.basics
 
+/**
+ * In Kotlin, a classes are "final" by default. If a class needs to be inherited, it should be
+ * declared as "open"
+ */
 open class Animal(val family: String, val type: String, var height: Double, var weight : Double) {
     init {
         var decimalCheck = Regex(".*d+.*")
