@@ -17,6 +17,9 @@ fun main(args : Array<String>) {
     println("Biggest Short : ${Short.MAX_VALUE}")
     println("Smallest Short : ${Short.MIN_VALUE}")
 
+    println("Biggest Float : ${Float.MAX_VALUE}")
+    println("Samllest Float : ${Float.MIN_VALUE}")
+
     val double1 : Double = 1.1111111111111111
     val double2 : Double = 1.1111111111111111
 
