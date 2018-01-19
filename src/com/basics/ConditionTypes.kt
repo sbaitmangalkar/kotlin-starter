@@ -1,7 +1,8 @@
 package com.basics
 
 fun main(args: Array<String>) {
-    val age = 8;
+    println("Enter age:")
+    val age = readLine()!!.toInt()
     if(age < 5)
         println("Go to preschool")
     else if (age == 5)

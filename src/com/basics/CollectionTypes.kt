@@ -17,7 +17,7 @@ fun main(args: Array<String>) {
 
     val map = mutableMapOf<Int, Any?>()
     map[1] = 23
-    map[2] = "Anusha"
+    map[2] = "Ben"
     map[3] = "Shyam"
     map[4] = 33
     map.put(77, "Bangalore")
@@ -26,7 +26,7 @@ fun main(args: Array<String>) {
         println("Key : $key Value: $value")
     }
 
-    val map2 = mutableMapOf(1 to "Anusha", 2 to "Shyam", 3 to 25)
+    val map2 = mutableMapOf(1 to "Jon", 2 to "Shyam", 3 to 25)
     for ((key, value) in map2) {
         println("Key in Map2 : $key Value in Map2 : $value")
     }

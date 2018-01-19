@@ -7,7 +7,7 @@ fun subtract(num1 : Int, num2 : Int) : Int {
 }
 
 fun nextTwo(num : Int) : Pair<Int, Int> {
-    return Pair(num +1, num + 2)
+    return Pair(num + 1, num + 2)
 }
 
 fun greet(name : String, msg : String = "Hi") : String {
@@ -34,7 +34,6 @@ tailrec fun tailFactorial(a : Int, b : Int) : Int {
 }
 
 
-
 fun main(args: Array<String>) {
     println("10 + 6 is ${add(10,6)}")
     println("10 - 6 is ${subtract(num2 = 6, num1 = 10)}")
@@ -49,6 +48,6 @@ fun main(args: Array<String>) {
 
     println("2 * 8 = ${multiply(2, 8)}")
 
-    println("5! : ${factorial(5)}")
+    println("3! : ${factorial(3)}")
 
 }

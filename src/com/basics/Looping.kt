@@ -10,6 +10,7 @@ fun main(args: Array<String>) {
 
     val rand = Random()
     val num = rand.nextInt(50) + 1
+    println("Generated random number : $num")
 
     var guess = 0
 
@@ -24,7 +25,7 @@ fun main(args: Array<String>) {
     var myArray = arrayOf(1,2,3,4,5,6)
 
     for(index in myArray.indices)
-        println("Index of ${myArray[index]} is ${index}")
+        println("Index of ${myArray[index]} is $index")
 
     println("---ALTERNATIVE OF INDEXING----")
     for((index, value) in myArray.withIndex())
