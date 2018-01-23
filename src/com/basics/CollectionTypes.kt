@@ -1,7 +1,9 @@
 package com.basics
 
 fun main(args: Array<String>) {
+    //Mutable List
     var mutableList : MutableList<Int> = mutableListOf(1,2,3,4,5)
+    //Unused immutable list
     val immutableList : List<Int> = listOf(1,2,3)
 
     mutableList.add(6)
