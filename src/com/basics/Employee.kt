@@ -1,5 +1,6 @@
 package com.basics
 
+//Data class : Class used to hold some specific data
 data class Employee(val firstName: String,
                      val lastName: String,
                      val employeeId: String,
@@ -15,6 +16,7 @@ fun main(args: Array<String>) {
     println(shyam.hashCode())
     println(shyam.toString())
 
+    //Duplicate Object :
     val shyamImpersonator = Employee("Shyam", "B", "U4567", "shyam@tr.com", "+9180123456", "F&R")
     println(shyam.equals(shyamImpersonator))
 
