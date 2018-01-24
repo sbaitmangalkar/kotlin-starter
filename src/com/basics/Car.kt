@@ -1,5 +1,9 @@
 package com.basics
 
+/**
+ * This is just a sample class. There is no mention about
+ * this in the tutorial.
+ */
 class Car {
     var make : String = "Ford"
     var name : String = "Focus"
