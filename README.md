@@ -266,3 +266,235 @@ fun main(args : Array<String>) {
 }
 ```
 Here, `first()` and `last()` are convenient methods defined in `Arrays<out : T>` class.
+
+## Range
+If you want to create a range of numbers, it is as simple as:
+```Kotlin
+fun main(args : Array<String>) {
+  val rangeOneToTen = 1..10
+}
+```
+This creates a set of values ranging from 1 to 10 (both inclusive). And if you want to check if a specific value
+falls within this range, then:
+```Kotlin
+fun main(args : Array<String>) {
+  val rangeOneToTen = 1..10
+  println("11 in rangeOneToTen : ${11 in rangeOneToTen}")
+}
+```
+**in** is a valid Kotlin keyword which returns a Boolean result telling whether the value is present in the given
+range or not.
+If you want to create a range of numbers in reverse order:
+```Kotlin
+fun main(args : Array<String>) {
+  val rangeTenToOne = 10.downTo(1)
+}
+```
+`downTo(to : Int)` is a method that can be called on an `Int` value which returns a reverse progression.
+If you want to step through in a range, then it is as simple as:
+```Kotlin
+fun main(args : Array<String>) {
+  val rangeOneToTen = 1..10
+  val range3 = rangeOneToTen.step(3)
+}
+```
+Just to verify this:
+```Kotlin
+fun main(args : Array<String>) {
+  val rangeOneToTen = 1..10
+  val range3 = rangeOneToTen.step(3)
+  for(i in range3)
+    println("range3 : $i")
+}
+```
+This produces:
+> range3 : 1
+>
+> range3 : 4
+>
+> range3 : 7
+>
+> range3 : 10
+
+Stepping through 3 values at each time.
+
+## Conditionals
+In this section, let's explore some of the core functional programming concepts. When it comes to functional
+programming, it has three powerful functions to offer - **map**, **reduce** and **filter**. In addition to these, Kotlin
+adds another function called fold. All these methods operate on a set of items.
+A reduce function (method signature: `reduce(operation : (S,T) -> S) : S`) when called on a list of items,
+reduces the entire list to a single item based on the given condition:
+```Kotlin
+fun main(args: Array<String>) {
+  val numberList = 1..20
+  val listSum = numberList.reduce{a,b -> a + b}
+  println("List sum using reduce : $listSum")
+}
+```
+In this example, reduce is called on a list of integers ranging from 1 to 20 by specifying the condition to add
+up all the numbers in that list. Hence this produces a result of:
+> List sum using reduce : 210
+
+Kotlin's `fold` function (method signature: `fold(inital : R, operation : (R,T) -> R) : R`) is very similar to the
+reduce function. The only difference being, fold takes in an extra initial parameter which specifies the initial
+value of the operation:
+```Kotlin
+fun main(args: Array<String>) {
+  val numberList = 1..20
+  val listSum2 = numberList.fold(2) {x,y -> x + y}
+  println("List sum using fold : $listSum2")
+}
+```
+Here, 2 is passed as an initial value, hence the result will be:
+> List sum using fold : 212
+
+A `map` function (method signature: `map(transform: (T) -> R): List<R>`) when called on a list of items,
+transforms the given list to a new list that matches the given condition: 
+```Kotlin
+fun main(args: Array<String>) {
+  val numberList = 1..20
+  val listTimes4 = numberList.map { num -> num * 4 }
+  listTimes4.forEach { println("*4 - $it") }
+}
+```
+Here, map function transforms the original list to a new list containing each of the numbers multiplied by 4.
+This produces:
+> *4 - 4
+>
+> *4 - 8
+>
+> *4 - 12
+>
+> *4 - 16
+>
+> *4 - 20
+>
+> *4 - 24
+>
+> *4 - 28
+>
+> *4 - 32
+>
+> *4 - 36
+>
+> *4 - 40
+>
+> *4 - 44
+>
+> *4 - 48
+>
+> *4 - 52
+>
+> *4 - 56
+>
+> *4 - 60
+>
+> *4 - 64
+>
+> *4 - 68
+>
+> *4 - 72
+> 
+> *4 - 76
+> 
+> *4 - 80
+
+> Note: In the above code snippet, it can be observed that `$it` is used in print statement. **"it"** is a valid
+Kotlin keyword that can be used within an internal iterator (`forEach()` method) which specifies the
+current item coming out from the list.
+
+A filter function (method signature: `filter(predicate : (T) -> Boolean) : List<T>`) when called on a list of
+items, allows some items to go through and blocks some of them based on the given condition:
+```Kotlin
+fun main(args: Array<String>) {
+  val numberList = 1..20
+  val oddNumberList = numberList.filter { num -> num % 2 != 0 }
+  oddNumberList.forEach { println(it) }
+}
+```
+This creates a list of odd numbers from the given original list, producing the result:
+> 1
+>
+> 3
+>
+> 5
+>
+> 7
+>
+> 9
+>
+> 11
+>
+> 13
+>
+> 15
+>
+> 17
+>
+> 19
+
+## If and When Conditions
+Kotlin supports classic condition checking mechanism using `if` and `else` conditions:
+```Kotlin
+fun main(args: Array<String>) {
+   println("Enter age:")
+   val age = readLine()!!.toInt()
+   if(age < 5)
+     println("Go to preschool")
+   else if (age == 5)
+     println("Go to Kindergarten")
+   else if(age > 5 && age <= 17) {
+     val grade = age - 5
+     println("Go to grade $grade")
+   } else
+      println("Go to College")
+}
+```
+In this code sample, age is read from console and based on the given age, an appropriate message is
+displayed:
+> Enter age:
+>
+> 10
+>
+> Go to grade 5
+
+In addition to classic condition checks, Kotlin also has a when statement:
+```Kotlin
+fun main(args: Array<String>) {
+  println("Enter age:")
+  val age = readLine()!!.toInt()
+  when(age) {
+    in 0..5 -> println("Go to Preschool")
+    5 -> println("Go to Kindergarten")
+    in 6..17 -> {
+    val grade = age - 5
+    println("Go to grade $grade")
+    }
+    else -> println("Go to College")
+  }
+}
+```
+Here, it can be observed that the same example which previously used classic condition checks, is now
+being transformed to use `when` statement. This `when` statement is very similar to `switch` statement in other
+programming languages. Another important aspect which can be observed in this code snippet is, `in`
+keyword is used where ever a range check is required. Lastly, `else` here acts a `default` in `switch` statement.
+
+## Reading Console Inputs
+In the previous section we saw that age was being read from the console. Let's talk briefly about reading
+inputs from the console.
+Kotlin has a method called `readLine()` which is defined in kotlin.io and this is intended to read inputs from
+the console. This method returns a `String` by default. If you want to read a single integer from console:
+```Kotlin
+fun main(args : Array<String>) {
+  val readInt = readLine()!!.toInt()
+}
+```
+Adding (!!) after `readLine()` will return a **non-null** value of `readLine().toInt()` of throws a
+`NullPointerException` if `readLine()` returns **null**.
+Now, if you want to read two integers from console and add them:
+```Kotlin
+fun main(args : Array<String>) {
+  val (a, b) = readLine()!!.split(' ')
+  println("$a + $b = ${a.toInt() + b.toInt()}")
+}
+```
