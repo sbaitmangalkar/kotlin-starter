@@ -517,3 +517,198 @@ fun main(args : Array<String>) {
   println("$a + $b = ${a.toInt() + b.toInt()}")
 }
 ```
+## For And While Loops
+Looping constructs in Kotlin are really simple. To iterate through an array:
+```Kotlin
+fun main(args : Array<String>) {
+  var myArray = arrayOf(1,2,3,4,5,6)
+  for(num in myArray)
+  println("Loop : $num")
+}
+```
+To access the array index while looping, there are two approaches:
+**Approach 1:**
+```Kotlin
+fun main(args : Array<String>) {
+  var myArray = arrayOf(1,2,3,4,5,6)
+  for(index in myArray.indices)
+    println("Index of ${myArray[index]} is $index")
+}
+```
+Which prints out:
+> Index of 1 is 0
+>
+> Index of 2 is 1
+>
+> Index of 3 is 2
+>
+> Index of 4 is 3
+>
+> Index of 5 is 4
+>
+> Index of 6 is 5
+
+Approach 2:
+```Kotlin
+fun main(args : Array<String>) {
+  var myArray = arrayOf(1,2,3,4,5,6)
+  for((index, value) in myArray.withIndex())
+    println("Index : $index Value : $value")
+}
+```
+Which prints out:
+> Index : 0 Value : 1
+>
+> Index : 1 Value : 2
+>
+> Index : 2 Value : 3
+>
+> Index : 3 Value : 4
+>
+> Index : 4 Value : 5
+>
+> Index : 5 Value : 6
+
+`while` loop is very similar to the one which is seen in other programming languages. To quickly understand
+it's working, consider an example where we need to develop an application that will guess a random
+number:
+```Kotlin
+fun main(args: Array<String>) {
+  val rand = Random()
+  val num = rand.nextInt(50) + 1
+  println("Generated random number : $num")
+  var guess = 0
+  while(num != guess) {
+    guess += 1
+  }
+  println("Num : $guess")
+}
+```
+Here `Random()` is being imported from `java.util` package. Kotlin supports all those utilities which are
+available in Java. This code snippet first generates a random number number and then goes on to guess
+that!! Sample output will look like:
+> Generated random number : 26
+Num : 26
+
+# Functions
+We have been writing `main` function from quite some time now. Now, let's start calling other functions from
+our main function:
+```Kotlin
+fun greet(name : String, msg : String) : String {
+  return "$msg $name"
+}
+
+fun main(args : Array<String>) {
+  println("Greeting : ${greet("Ben", "Hello")}")
+}
+```
+Here greet method returns a String. That was not hard to guess:
+> Greeting : Hello Ben
+
+What about **default arguments**? Using default arguments is the most nice way to evolve an API.
+But Java doesn't support default arguments. Instead, one should take help from method overloading to
+achieve this. If same greet method is written in Java to support default arguments, it would look like:
+```Java
+public String greet(String name, String msg) {
+  return msg + " " + name;
+}
+
+public String greet(String name) {
+  String defaultMsg = "Hi";
+  return greet(name, defaultMsg);
+}
+```
+But Kotlin can understand you pain!! It supports default arguments. Hence the code snippet looks like:
+```Kotlin
+fun greet(name : String, msg : String = "Hi") : String {
+  return "$msg $name"
+}
+
+fun main(args : Array<String>) {
+  println("Greeting : ${greet("Ben")}")
+}
+```
+Also, Kotlin supports something called **named parameters**. Which means, there is no restriction on the way
+in which parameters are passed to a function. This `greet` method can also be called as:
+```Kotlin
+fun main(args : Array<String>) {
+  println("Greeting : ${greet(msg = "Howdy", name = "Ben")}")
+}
+```
+But just make sure that you specify the argument name.
+In Kotlin, functions can also be in a single line:
+```Kotlin
+fun add(num1 : Int, num2 : Int) : Int = num1 + num2
+
+fun main(args : Array<String>) {
+  println("10 + 6 is ${add(10,6)}")
+}
+```
+Here, add takes in two integers and returns an integer which is the sum of given two integers. Note that,
+specifying a return type is optional in case of single line functions.
+If you want to create a function that doesn't return anything, just specify the return type as `Unit` (Same as
+`void` in other programming languages) or **don't** specify anything (just like we do in case of `main` method):
+```Kotlin
+fun greet(name : String, msg : String) : Unit {
+  println("$msg $name")
+}
+```
+If you want to create a function that returns **two** values, then:
+```Kotlin
+fun nextTwo(num : Int) : Pair<Int, Int> {
+  return Pair(num + 1, num + 2)
+}
+
+fun main(args: Array<String>) {
+  val (two,three) = nextTwo(1)
+  println("One $two $three")
+}
+```
+Here, `Pair<out : A, out : B>` represents an object that holds two values and `nextTwo(num : Int)` method
+takes in an integer and returns a `Pair` containing it's next two increments.
+You can also send variable number of arguments to a function:
+```Kotlin
+fun getSum(vararg nums : Int) : Int {
+  var sum = 0
+  nums.forEach { element -> sum += element }
+  return sum
+}
+
+fun main(args : Array<String>) {
+  println("Summing Up : ${getSum(1,2,3,4,5,6)}")
+}
+```
+Where `vararg` is a Kotlin keyword which specifies that the function accepts variable number of arguments.
+The `getSum` method just returns a sum of integers passed it to.
+As we have looked into `vararg`, there is another way in which we can write `main` method in Kotlin:
+```Kotlin
+fun main(vararg args : String) {
+  println("Hello Sam!!")
+}
+```
+We can also define **function literals**:
+```Kotlin
+val multiply = {num1 : Int, num2 : Int -> num1 * num2}
+
+fun main(args: Array<String>) {
+  println("2 * 8 = ${multiply(2, 8)}")
+}
+```
+Here `multiply` is a literal that computes a product of given two integer values.
+Kotlin compiler optimizes all [tail recursion](https://en.wikipedia.org/wiki/Tail_call) calls. Tail recursive calls can be demonstrated through this factorial finding program:
+```Kotlin
+fun factorial (x : Int) : Int {
+  return tailFactorial(x, 1)
+}
+
+tailrec fun tailFactorial(a : Int, b : Int) : Int {
+  if(a == 0)
+    return b
+  else
+    return tailFactorial(a - 1, a * b)
+}
+
+fun main(args: Array<String>) {
+  println("3! : ${factorial(3)}")
+}
+```
