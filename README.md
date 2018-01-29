@@ -1,4 +1,4 @@
-# Kotlin-Starter
+# Kotlin - A Beginner's Guide
 
 ## Overview
 
@@ -803,3 +803,349 @@ fun main(args: Array<String>) {
 }
 ```
 Where key-value pairs are specified as "key to value".
+
+## Exception Handling
+Kotlin supports the classic `try` - `catch` block as in Java:
+```Kotlin
+fun main(args: Array<String>) {
+  println("Enter a dividend and a divisor with a \\\"space\\\" in between")
+  val(dividend, divisor) = readLine()!!.split(' ').map(String::toInt)
+  try {
+    if(divisor == 0)
+      throw IllegalArgumentException("Can't divide by zero!!")
+    else
+      println("$dividend / $divisor = ${dividend / divisor}")
+  } catch (e : IllegalArgumentException) {
+     println(e.message)
+  }
+}
+```
+This is an example that checks for a **divide by zero** condition. If there is such a condition,
+`IllegalArgumentException` is thrown.
+
+## Classes And Inheritance
+Classes in Kotlin are `final` by default which means, the created class is not available for inheritance. In order
+to inherit a class, it should be marked as open.
+So let's create an open class first:
+```Kotlin
+open class Animal(val family: String, val type: String, var height: Double, var weight : Double) { 
+  // class body goes here
+}
+```
+Above code snippet shows a simple class called `Animal` which has a constructor that takes 4 parameters.
+In Kotlin, **constructor** is written right after the **class name**. Above code snippet is similar to writing:
+```Java
+class Animal {
+  private String family;
+  private String type;
+  private double height;
+  private double weight;
+  
+  public Animal(String family, String type, double height, double weight) {
+    super();
+    this.family = family;
+    this.type = type;
+    this.height = height;
+    this.weight = weight;
+  }
+}
+```
+in Java. Now that's simplified to a greater extent in Kotlin isn't it?
+Since our `Animal` class is ready, let's evolve it further by adding a method. But before adding a method, we
+need to verify if the parameters passed to the constructor are valid or not. To do this, we will write an init
+block in the class that checks for the given parameters. In Kotlin, all the object initialization has to be done
+within an `init` block:
+```Kotlin
+open class Animal(val family: String, val type: String, var height: Double, var weight : Double) {
+   init {
+     var decimalCheck = Regex(".*d+.*")
+     
+     require(!family.matches(decimalCheck)) {"Animal Family cannot contain numbers!!"}
+     
+     require(!type.matches(decimalCheck)) {"Animal Name cannot contain numbers!!"}
+     
+     require(height > 0) {"Animal height should be a positive value!!"}
+     
+     require(weight > 0) {"Animal weight should be a positive value!!"}
+   }
+}
+```
+This init block defines a `kotlin.text.Regex(pattern : String)` which will be used to check for the presence of
+decimal values in a String. This is required because, a name or type should not contain any decimals or
+digits in it. This requirement is checked in a `require` function (method signature: `require(value: Boolean, lazyMessage: () -> Any): Unit`) which is an inline function in Kotlin. Now, its time to add a method to this class:
+```Kotlin
+open class Animal(val family: String, val type: String, var height: Double, var weight : Double) {
+    init {
+        var decimalCheck = Regex(".*d+.*")
+        require(!family.matches(decimalCheck)) {"Animal Family cannot contain numbers!!"}
+
+        require(!type.matches(decimalCheck)) {"Animal Name cannot contain numbers!!"}
+
+        require(height > 0) {"Animal height should be a positive value!!"}
+
+        require(weight > 0) {"Animal weight should be a positive value!!"}
+    }
+
+    open fun getAnimalInfo() {
+        println("Animal of $type belongs to $family is $height ft. tall and weighs $weight lbs.")
+    }
+}
+```
+As `Animal` class is ready, lets create another class that extends this class and adds some more information
+in it:
+```Kotlin
+class Dog(family : String, type : String, val name: String, val breed : String, height : Double, weight : Double, var owner : String) :
+        Animal(family, type, height, weight) {
+    
+    override fun getAnimalInfo() {
+        println("$name is a $type of breed $breed which belongs to $family family which is $height ft. tall weighing $weight lbs.")
+    }
+}
+```
+Along with `family`, `type`, `height` and `weight`, `Dog` class adds some additional information like `name`, dog's
+`breed` and `owner`. It also overrides the `getAnimalInfo()` method from the `Animal` class. Here `getAnimalInfo()` is an instance method. Now, lets create a Dog object:
+```Kotlin
+fun main(args: Array<String>) {
+   val scotty = Dog("Mammal", "Dog", "Scotty","Labrador", 20.4,30.2, "Shyam")
+   println(scotty.getAnimalInfo())
+}
+```
+As you can observe, creation of objects in Kotlin doesn't require a new keyword. It looks vary similar to a
+method call.
+So, instance methods are fine but what about `static` methods?
+Kotlin doesn't specifically have static methods, but the purpose can be fulfilled by a special type of object
+called **companion object**. Let's add a **companion object** to Dog class:
+```Kotlin
+class Dog(family : String, type : String, val name: String, val breed : String, height : Double, weight : Double, var owner : String) :
+        Animal(family, type, height, weight) {
+    override fun getAnimalInfo() {
+        println("$name is a $type of breed $breed which belongs to $family family which is $height ft. tall weighing $weight lbs.")
+    }
+
+    companion object {
+        fun callYourDog(name : String) {
+            println("Hey $name")
+        }
+    }
+}
+
+fun main(args: Array<String>) {
+    val scotty = Dog("Mammal", "Dog", "Scotty","Labrador", 20.4,30.2, "Shyam")
+    println(scotty.getAnimalInfo())
+
+    Dog.callYourDog("Scotty")
+}
+```
+There are times when we all deal with **data classes**. ***A data class is a class designed to hold data***. For
+example, an `Employee` class is created to hold employee related details. How would one design a data
+class in programming language like Java?
+```Java
+public class Employee {
+	private String firstName;
+	private String lastName;
+	private String employeeId;
+	private String emailAddress;
+	private String phoneNumber;
+	private String department;
+
+	public Employee(String firstName, String lastName, String employeeId, String emailAddress, String phoneNumber,
+			String department) {
+		super();
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.employeeId = employeeId;
+		this.emailAddress = emailAddress;
+		this.phoneNumber = phoneNumber;
+		this.department = department;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public String getEmployeeId() {
+		return employeeId;
+	}
+
+	public String getEmailAddress() {
+		return emailAddress;
+	}
+
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public String getDepartment() {
+		return department;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((department == null) ? 0 : department.hashCode());
+		result = prime * result + ((emailAddress == null) ? 0 : emailAddress.hashCode());
+		result = prime * result + ((employeeId == null) ? 0 : employeeId.hashCode());
+		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
+		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
+		result = prime * result + ((phoneNumber == null) ? 0 : phoneNumber.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof Employee))
+			return false;
+		Employee other = (Employee) obj;
+		if (department == null) {
+			if (other.department != null)
+				return false;
+		} else if (!department.equals(other.department))
+			return false;
+		if (emailAddress == null) {
+			if (other.emailAddress != null)
+				return false;
+		} else if (!emailAddress.equals(other.emailAddress))
+			return false;
+		if (employeeId == null) {
+			if (other.employeeId != null)
+				return false;
+		} else if (!employeeId.equals(other.employeeId))
+			return false;
+		if (firstName == null) {
+			if (other.firstName != null)
+				return false;
+		} else if (!firstName.equals(other.firstName))
+			return false;
+		if (lastName == null) {
+			if (other.lastName != null)
+				return false;
+		} else if (!lastName.equals(other.lastName))
+			return false;
+		if (phoneNumber == null) {
+			if (other.phoneNumber != null)
+				return false;
+		} else if (!phoneNumber.equals(other.phoneNumber))
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "[Employee(FirstName= " + firstName + " ,lastName= " + lastName + ", employeeId= " + employeeId
+				+ " emailAddress= " + emailAddress + ", phoneNumber= " + phoneNumber + ", department= " + department
+				+ ")]";
+	}
+
+}
+```
+Now that's roughly about 100 lines of code. The code has an overridden `equals` method which is very
+essential, an overrided `toString()` method, it also has a **constructor** and **get methods** for the fields. If we were to write a data class in Kotlin, this is how its going to look:
+```Kotlin
+data class Employee(val firstName: String,
+                     val lastName: String,
+                     val employeeId: String,
+                     val emailAddress: String,
+                     var phoneNumber: String,
+                     var department: String)
+```
+That's it!! 100 lines of code reduced to a single line!! Isn't that awesome!! If you want your class to hold data
+in Kotlin, just prefix the class declaration with `data` keyword. When Kotlin compiler sees a class being
+declared as a data class, it adds the implementation of `equals()`, `hashcode()` and `toString()` methods to it. If
+we want to test that:
+```Kotlin
+data class Employee(val firstName: String,
+                     val lastName: String,
+                     val employeeId: String,
+                     val emailAddress: String,
+                     var phoneNumber: String,
+                     var department: String)
+
+fun main(args: Array<String>) {
+    val shyam = Employee("Shyam", "B", "U4567", "shyam@tr.com", "+9180123456", "F&R")
+    val john = Employee("john", "C", "U1234", "john@tr.com", "+91804567", "F&R")
+
+    println(shyam.equals(john))
+    println(shyam.hashCode())
+    println(shyam.toString())
+
+    //Duplicate Object :
+    val shyamImpersonator = Employee("Shyam", "B", "U4567", "shyam@tr.com", "+9180123456", "F&R")
+    println(shyam.equals(shyamImpersonator))
+
+}
+```
+There are two employee objects which are distinct and there is a third employee object which is replication
+of an existing object. This produces the result:
+> false
+>
+> -204274192
+>
+> Employee(firstName=Shyam, lastName=B, employeeId=U4567, emailAddress=shyam@tr.com, phoneNumber=+9180123456, department=F&R)
+>
+> true
+
+## Interfaces
+Implementing interfaces in Kotlin is very similar to implementing interfaces in other programming languages.
+Lets create an interface and implement it:
+```Kotlin
+interface FlyableBird {
+    fun fly() : Unit
+}
+
+//Implementation
+class Bird(val name : String, var distanceFlown : Double) : FlyableBird {
+    override fun fly() {
+        println("$name can fly up to $distanceFlown mts!")
+    }
+}
+
+fun main(args: Array<String>) {
+    val dove = Bird("Dove", 34.6)
+    println(dove.fly())
+}
+```
+`FlyableBird` is an interface which has `fly()` method. `Bird` implements `FlyableBird` and overrides `fly()`
+method. Running the above code snippet will produce a result of:
+> Dove can fly up to 34.6 mts!
+
+## Null Safety
+Null safety is built directly into Kotlin. By default, a null value cannot be assigned to a variable. If a null value
+is assigned to a variable, it gives a compile time error. However, null values can be explicitly allowed to be
+set into a variable:
+```Kotlin
+fun main(args: Array<String>) {
+  var email : String? = null
+}
+```
+Adding a question mark ("?") after the data type will allow the variable to hold a null value.
+There might be some functions that may return null values. In that case, just add a question mark ("?") after
+specifying the return type:
+```Kotlin
+fun returningNull() : String? {
+  return null
+}
+```
+There is a provision in Kotlin where, if a value returned from a function is assigned to a variable and if this
+value turns out to be null, the variable can then have a default value assigned to it:
+```Kotlin
+fun returningNull() : String? {
+  return null
+}
+
+fun main(args: Array<String>) {
+  var nullVal : String = returningNull() ?: "No Content!!"
+  println(nullVal)
+}
+```
+In this code snippet, `returningNull()` method returns a null value which is assigned to a variable called
+`nullVal`. By using an **elvis operator**, a default value can be specified. This default value will be assigned to
+the variable only if the method call returns null (true in this case).
