@@ -490,25 +490,6 @@ fun main(args : Array<String>) {
   val readInt = readLine()!!.toInt()
 }
 ```
-Adding (!!) after `readLine()` will return a **non-null** value of `readLine().toInt()` of throws a
-`NullPointerException` if `readLine()` returns **null**.
-Now, if you want to read two integers from console and add them:
-```Kotlin
-fun main(args : Array<String>) {
-  val (a, b) = readLine()!!.split(' ')
-  println("$a + $b = ${a.toInt() + b.toInt()}")
-}
-```
-## Reading Console Inputs
-In the previous section we saw that age was being read from the console. Let's talk briefly about reading
-inputs from the console.
-Kotlin has a method called `readLine()` which is defined in kotlin.io and this is intended to read inputs from
-the console. This method returns a `String` by default. If you want to read a single integer from console:
-```Kotlin
-fun main(args : Array<String>) {
-  val readInt = readLine()!!.toInt()
-}
-```
 Adding (!!) after readLine() will return a **non-null** value of `readLine().toInt()` of throws a
 `NullPointerException` if `readLine()` returns null.
 Now, if you want to read two integers from console and add them:
