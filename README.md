@@ -695,7 +695,7 @@ fun main(args: Array<String>) {
 }
 ```
 ## Higher Order Functions
-A [higher order function] (https://en.wikipedia.org/wiki/Higher-order_function) is a function that either accepts or returns a function:
+A [higher order function](https://en.wikipedia.org/wiki/Higher-order_function) is a function that either accepts or returns a function:
 ```Kotlin
 fun makeMathFunction(num1 : Int) : (Int) -> Int = {num2 -> num1 * num2}
 
