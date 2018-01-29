@@ -50,6 +50,7 @@ just like Java.
 ## String Type
 String is a commonly used data type in various programming languages. In Kotlin, String has some special
 features:
+
 **a. String Interpolation operation**
 In programming language like Java, if something needs to be printed out on the console, it is generally done
 like this:
