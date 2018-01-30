@@ -1,8 +1,16 @@
 package com.basics
 
 //Higher Order Function - A function which either accepts or returns a function
+
+/**
+ * Function returning another function
+ *
+ */
 fun makeMathFunction(num1 : Int) : (Int) -> Int = {num2 -> num1 * num2}
 
+/**
+ * Function taking another function as an argument
+ */
 fun mathOnNumbers(numList : Array<Int>, customFunction:(num : Int) -> Int) {
     for(number in numList)
         println("Running customFunction : ${customFunction(number)}")
