@@ -1,5 +1,8 @@
 package com.basics
 
+/**
+ * Inline function
+ */
 fun add(num1 : Int, num2 : Int) : Int = num1 + num2
 
 fun subtract(num1 : Int, num2 : Int) : Int {
@@ -20,12 +23,18 @@ fun getSum(vararg nums : Int) : Int {
     return sum
 }
 
+/**
+ * Function literal
+ */
 val multiply = {num1 : Int, num2 : Int -> num1 * num2}
 
 fun factorial (x : Int) : Int {
     return tailFactorial(x, 1)
 }
 
+/**
+ * Tail recursion function
+ */
 tailrec fun tailFactorial(a : Int, b : Int) : Int {
     if(a == 0)
         return b
