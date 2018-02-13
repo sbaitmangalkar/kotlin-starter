@@ -3,6 +3,7 @@ package com.basics
 import java.util.*
 
 fun main(args: Array<String>) {
+    //Sample for loop
     for (x in 1..10)
         println("Loop : $x")
 
@@ -13,7 +14,7 @@ fun main(args: Array<String>) {
     println("Generated random number : $num")
 
     var guess = 0
-
+    //Sample while loop
     while(num != guess) {
         guess += 1
     }
