@@ -6,6 +6,9 @@ class Dog(family : String, type : String, val name: String, val breed : String, 
         println("$name is a $type of breed $breed which belongs to $family family which is $height ft. tall weighing $weight lbs.")
     }
 
+    /**
+     * Companion Objects serve as static methods (but not exactly static methods)
+     */
     companion object {
         fun callYourDog(name : String) {
             println("Hey $name")
